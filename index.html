@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pokémon Language Adventure: Lingua Region (Tahun 4 BM)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/game.css" />
+  <link rel="stylesheet" href="css/battle.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+</head>
+<body>
+  <!-- TOP RPG HUD BAR (Visible when logged into adventure) -->
+  <header id="top-hud" class="top-hud hidden">
+    <div class="hud-left">
+      <button id="btn-menu-toggle" class="pixel-btn btn-small" title="Menu Navigasi">☰ MENU</button>
+      <div class="hud-trainer-pill" data-nav="dashboard">
+        <span id="hud-avatar" class="hud-avatar">🧢</span>
+        <div>
+          <div id="hud-trainer-name" class="hud-name">Pelatih</div>
+          <div class="hud-sub">Lv.<span id="hud-trainer-level">1</span> • <span id="hud-xp-text">0/100 XP</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hud-center">
+      <div class="hud-stat" title="Poké Coins">
+        <span>🪙</span> <strong id="hud-coins">200</strong>
+      </div>
+      <div class="hud-stat" title="Lencana Gym">
+        <span>🏅</span> <strong id="hud-badges">0/3</strong>
+      </div>
+      <div class="hud-stat" title="Pokémon Ditangkap">
+        <span>🔴</span> <strong id="hud-caught">0/15</strong>
+      </div>
+    </div>
+
+    <div class="hud-right">
+      <button id="btn-audio-modal" class="pixel-btn btn-small btn-blue" title="Tetapan Bunyi">🔊</button>
+      <button id="btn-quick-save" class="pixel-btn btn-small btn-green" title="Simpan Permainan">💾</button>
+    </div>
+  </header>
+
+  <!-- MAIN APPLICATION CONTAINER -->
+  <div id="app-shell" class="app-shell">
+    <!-- SIDEBAR NAVIGATION DRAWER -->
+    <nav id="side-nav" class="side-nav hidden">
+      <div class="nav-header">
+        <span class="pixel-font nav-title">LINGUA DEX OS</span>
+        <button id="btn-close-nav" class="close-nav-btn">✕</button>
+      </div>
+      <ul class="nav-list">
+        <li><button class="nav-item active" data-nav="dashboard">🏠 Papan Pemuka Pelatih</button></li>
+        <li><button class="nav-item" data-nav="map">🗺️ Peta Dunia Lingua</button></li>
+        <li><button class="nav-item" data-nav="adventure">🌲 Pengembaraan & Misi</button></li>
+        <li><button class="nav-item" data-nav="team">🎒 Pasukan & Koleksi Pokémon</button></li>
+        <li><button class="nav-item" data-nav="pokedex">📱 Pokédex & Kamus Bahasa</button></li>
+        <li><button class="nav-item" data-nav="gyms">🏅 Gym & Lencana Bahasa</button></li>
+        <li><button class="nav-item" data-nav="center">🏥 Pusat Pokémon & Ulang Kaji</button></li>
+        <li><button class="nav-item" data-nav="shop">🏪 Kedai Item Poké</button></li>
+        <li><button class="nav-item" data-nav="champion">👑 Liga Juara (Peperiksaan Akhir)</button></li>
+        <li><button class="nav-item" data-nav="professor">🧑‍🏫 Profesor Bahasa (Bantuan)</button></li>
+        <li><button class="nav-item" data-nav="achievements">🏆 Pencapaian</button></li>
+        <li class="nav-divider"></li>
+        <li><button class="nav-item nav-danger" data-nav="main-menu">🚪 Menu Utama</button></li>
+      </ul>
+    </nav>
+
+    <!-- MAIN SCREEN VIEWPORT -->
+    <main id="main-viewport" class="main-viewport">
+
+      <!-- =========================================================
+           SCREEN 1: MAIN MENU / TITLE & LOGIN SCREEN
+           ========================================================= -->
+      <section id="screen-main-menu" class="screen active title-screen">
+        <div class="title-bg-particles"></div>
+        <div class="title-card">
+          <div class="kssr-badge">KSSR TAHUN 4 • BAHASA MELAYU (SK 5.2)</div>
+          <h1 class="game-logo pixel-font">
+            POKÉMON<br />
+            <span class="logo-accent">LANGUAGE ADVENTURE</span>
+          </h1>
+          <p class="game-subtitle">WILAYAH LINGUA • MISI MENYELAMATKAN DATA BAHASA</p>
+
+          <div class="story-intro-box rpg-box">
+            <div class="prof-mini">🧑‍🏫 <strong>Profesor Bahasa:</strong></div>
+            <p id="title-dialogue">
+              "Selamat datang ke Wilayah Lingua! Team Rocket telah mencuri data <strong>Pokédex Bahasa</strong> sehingga Pokémon lupa cara menggunakan <em>Kata Berimbuhan, Kata Majmuk,</em> dan <em>Kata Ganda</em>. Adakah kamu bersedia menjadi <strong>Pokémon Language Master</strong>?"
+            </p>
+          </div>
+
+          <!-- New Trainer Form / Continue Box -->
+          <div id="continue-panel" class="continue-panel hidden">
+            <div class="save-preview">
+              <span id="save-preview-avatar" class="preview-avatar">🧢</span>
+              <div>
+                <div class="preview-title">Rekod Pelatih Ditemui: <strong id="save-preview-name">Ali</strong></div>
+                <div class="preview-meta" id="save-preview-meta">Tahap 1 • 0 Lencana • 1 Pokémon</div>
+              </div>
+            </div>
+            <button id="btn-continue-game" class="pixel-btn btn-green btn-large btn-block">
+              ▶ TERUSKAN PENGEMBARAAN
+            </button>
+          </div>
+
+          <div class="new-game-panel">
+            <h3>Daftar Pelatih Baharu</h3>
+            <div class="form-row">
+              <input type="text" id="input-trainer-name" maxlength="16" placeholder="Masukkan nama pelajar..." />
+              <div class="avatar-selector" id="avatar-selector">
+                <button type="button" class="avatar-opt selected" data-avatar="🧢">🧢</button>
+                <button type="button" class="avatar-opt" data-avatar="🎀">🎀</button>
+                <button type="button" class="avatar-opt" data-avatar="🥽">🥽</button>
+                <button type="button" class="avatar-opt" data-avatar="🎓">🎓</button>
+              </div>
+            </div>
+            <div class="starter-picker">
+              <label>Pilih Pokémon Permulaan Kamu:</label>
+              <div class="starter-cards" id="starter-cards">
+                <div class="starter-choice selected" data-starter="1">
+                  <div class="starter-sprite" id="starter-svg-1"></div>
+                  <strong>Daunaur</strong>
+                  <span>Jenis Rumput • Imbuhan</span>
+                </div>
+                <div class="starter-choice" data-starter="4">
+                  <div class="starter-sprite" id="starter-svg-4"></div>
+                  <strong>Baraapi</strong>
+                  <span>Jenis Api • Kata Majmuk</span>
+                </div>
+                <div class="starter-choice" data-starter="7">
+                  <div class="starter-sprite" id="starter-svg-7"></div>
+                  <strong>Kuraair</strong>
+                  <span>Jenis Air • Kata Ganda</span>
+                </div>
+              </div>
+            </div>
+            <button id="btn-start-new-game" class="pixel-btn btn-yellow btn-large btn-block">
+              ⚡ MULA PENGEMBARAAN BAHARU
+            </button>
+          </div>
+
+          <div class="title-footer-actions">
+            <button id="btn-title-audio" class="pixel-btn btn-small btn-blue">🔊 Bunyi: HIDUP</button>
+            <button id="btn-reset-save" class="pixel-btn btn-small btn-red">🗑️ Padam Data Simpanan</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           SCREEN 2: TRAINER DASHBOARD
+           ========================================================= -->
+      <section id="screen-dashboard" class="screen">
+        <div class="section-header">
+          <h2 class="pixel-font">🪪 KAD PELATIH LINGUA</h2>
+          <button class="pixel-btn btn-yellow" data-nav="map">🗺️ Pergi ke Peta Dunia →</button>
+        </div>
+
+        <div class="dashboard-grid">
+          <!-- Trainer Profile Card -->
+          <div class="rpg-card trainer-card">
+            <div class="trainer-card-top">
+              <div id="dash-avatar" class="dash-avatar-big">🧢</div>
+              <div class="trainer-identity">
+                <span class="rank-pill" id="dash-rank">PELATIH PEMULA</span>
+                <h3 id="dash-name">Pelatih</h3>
+                <p>ID Pelatih: #<span id="dash-id">042026</span></p>
+                <div class="xp-bar-wrap">
+                  <div class="xp-bar-label">
+                    <span>Tahap <strong id="dash-level">1</strong></span>
+                    <span id="dash-xp">0 / 100 XP</span>
+                  </div>
+                  <div class="progress-track">
+                    <div id="dash-xp-fill" class="progress-fill fill-blue" style="width: 10%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="trainer-stats-row">
+              <div class="mini-stat-box">
+                <span class="stat-icon">🪙</span>
+                <strong id="dash-coins">200</strong>
+                <small>Poké Coins</small>
+              </div>
+              <div class="mini-stat-box">
+                <span class="stat-icon">🔴</span>
+                <strong id="dash-pokemon-count">1</strong>
+                <small>Pokémon</small>
+              </div>
+              <div class="mini-stat-box">
+                <span class="stat-icon">🏅</span>
+                <strong id="dash-badge-count">0 / 3</strong>
+                <small>Lencana</small>
+              </div>
+              <div class="mini-stat-box">
+                <span class="stat-icon">📚</span>
+                <strong id="dash-mastery">0%</strong>
+                <small>Penguasaan BM</small>
+              </div>
+            </div>
+
+            <div class="badge-case-mini">
+              <h4>Bekas Lencana Bahasa</h4>
+              <div id="dash-badges-row" class="badges-row"></div>
+            </div>
+          </div>
+
+          <!-- Active Team Preview & Quick Actions -->
+          <div class="rpg-card">
+            <div class="card-head-flex">
+              <h3>🎒 Pasukan Aktif (Maksimum 6)</h3>
+              <button class="pixel-btn btn-small btn-blue" data-nav="team">Urus Pasukan</button>
+            </div>
+            <div id="dash-active-team" class="active-team-mini-grid"></div>
+
+            <div class="quick-actions-box">
+              <h4>Tindakan Pantas Pengembaraan</h4>
+              <div class="quick-btn-grid">
+                <button class="pixel-btn btn-green" data-nav="adventure">🌿 Cari Pokémon Liar</button>
+                <button class="pixel-btn btn-blue" data-nav="center">🏥 Pulih & Ulang Kaji</button>
+                <button class="pixel-btn btn-yellow" data-nav="shop">🏪 Beli Poké Ball</button>
+                <button class="pixel-btn btn-purple" data-nav="professor">🧑‍🏫 Tanya Prof. Bahasa</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Learning Progress by KSSR Subtopic -->
+        <div class="rpg-card mt-16">
+          <h3>📊 Kemajuan Pembelajaran KSSR 5.2 (Pembentukan Kata)</h3>
+          <div class="topic-progress-grid">
+            <div class="topic-prog-item">
+              <div class="topic-prog-head">
+                <span>🌲 Wilayah 1: <strong>Kata Berimbuhan</strong></span>
+                <span id="prog-r1-text">0 / 5 Misi</span>
+              </div>
+              <div class="progress-track"><div id="prog-r1-bar" class="progress-fill fill-green" style="width:0%"></div></div>
+            </div>
+            <div class="topic-prog-item">
+              <div class="topic-prog-head">
+                <span>🏙️ Wilayah 2: <strong>Kata Majmuk</strong></span>
+                <span id="prog-r2-text">0 / 5 Misi</span>
+              </div>
+              <div class="progress-track"><div id="prog-r2-bar" class="progress-fill fill-blue" style="width:0%"></div></div>
+            </div>
+            <div class="topic-prog-item">
+              <div class="topic-prog-head">
+                <span>⛰️ Wilayah 3: <strong>Kata Ganda</strong></span>
+                <span id="prog-r3-text">0 / 5 Misi</span>
+              </div>
+              <div class="progress-track"><div id="prog-r3-bar" class="progress-fill fill-orange" style="width:0%"></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           SCREEN 3: INTERACTIVE WORLD MAP
+           ========================================================= -->
+      <section id="screen-map" class="screen">
+        <div class="section-header">
+          <h2 class="pixel-font">🗺️ PETA WILAYAH LINGUA</h2>
+          <span class="hint-pill">Klik wilayah untuk meneroka & menjalankan misi</span>
+        </div>
+
+        <div class="world-map-board">
+          <div class="map-nodes-container">
+            <!-- Region 1 -->
+            <div class="map-node region-1" id="map-node-r1">
+              <div class="node-badge-tag">WILAYAH 01</div>
+              <div class="node-art">🌲🦊🌿</div>
+              <h3>Grassland Forest</h3>
+              <p class="node-topic">Topik: <strong>Kata Berimbuhan</strong></p>
+              <p class="node-leader">Ketua Gym: <strong>Flora</strong> (Nature Badge)</p>
+              <div class="node-status" id="map-status-r1">TERBUKA</div>
+              <button class="pixel-btn btn-green btn-block" onclick="Regions.selectRegion('region1')">Masuk Hutan →</button>
+            </div>
+
+            <div class="map-connector">══▶</div>
+
+            <!-- Region 2 -->
+            <div class="map-node region-2" id="map-node-r2">
+              <div class="node-badge-tag">WILAYAH 02</div>
+              <div class="node-art">🏙️⚡🤖</div>
+              <h3>Metro City</h3>
+              <p class="node-topic">Topik: <strong>Kata Majmuk</strong></p>
+              <p class="node-leader">Ketua Gym: <strong>Volt</strong> (Knowledge Badge)</p>
+              <div class="node-status" id="map-status-r2">TERBUKA</div>
+              <button class="pixel-btn btn-blue btn-block" onclick="Regions.selectRegion('region2')">Masuk Bandar →</button>
+            </div>
+
+            <div class="map-connector">══▶</div>
+
+            <!-- Region 3 -->
+            <div class="map-node region-3" id="map-node-r3">
+              <div class="node-badge-tag">WILAYAH 03</div>
+              <div class="node-art">⛰️🪨🐉</div>
+              <h3>Mountain Cave</h3>
+              <p class="node-topic">Topik: <strong>Kata Ganda</strong></p>
+              <p class="node-leader">Ketua Gym: <strong>Rocky</strong> (Mastery Badge)</p>
+              <div class="node-status" id="map-status-r3">TERBUKA</div>
+              <button class="pixel-btn btn-yellow btn-block" onclick="Regions.selectRegion('region3')">Masuk Gua →</button>
+            </div>
+
+            <div class="map-connector">══▶</div>
+
+            <!-- Champion League -->
+            <div class="map-node region-champion" id="map-node-champ">
+              <div class="node-badge-tag">DESTINASI AKHIR</div>
+              <div class="node-art">👑🏰🏆</div>
+              <h3>Champion League</h3>
+              <p class="node-topic">Topik: <strong>Semua Pembentukan Kata</strong></p>
+              <p class="node-leader">Lawan: <strong>Bos Team Rocket & Juara</strong></p>
+              <div class="node-status" id="map-status-champ">🔒 Perlukan 3 Lencana</div>
+              <button id="btn-enter-champion" class="pixel-btn btn-purple btn-block" data-nav="champion">Cabar Liga →</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           SCREEN 4: REGION ADVENTURE & GAMEPLAY MODES
+           ========================================================= -->
+      <section id="screen-adventure" class="screen">
+        <div id="adventure-banner" class="adventure-banner theme-region1">
+          <div>
+            <span id="adv-region-tag" class="region-pill">WILAYAH 01 • KATA BERIMBUHAN</span>
+            <h2 id="adv-region-title" class="pixel-font">GRASSLAND FOREST</h2>
+            <p id="adv-region-desc">Kuasai Kata Berawalan, Berakhiran, dan Berapitan untuk mencabar Ketua Gym Flora!</p>
+          </div>
+          <div class="region-switcher">
+            <button class="pixel-btn btn-small btn-green" onclick="Regions.selectRegion('region1')">W1: Hutan</button>
+            <button class="pixel-btn btn-small btn-blue" onclick="Regions.selectRegion('region2')">W2: Bandar</button>
+            <button class="pixel-btn btn-small btn-yellow" onclick="Regions.selectRegion('region3')">W3: Gua</button>
+          </div>
+        </div>
+
+        <!-- Region Missions & 5 Distinct Game Modes -->
+        <div class="adventure-layout">
+          <div class="rpg-card">
+            <h3>🎮 Mod Permainan Wilayah</h3>
+            <div class="mode-cards-grid">
+              <div class="mode-card">
+                <div class="mode-icon">🌿</div>
+                <h4>1. Pertemuan Pokémon Liar</h4>
+                <p>Kalahkan Pokémon liar menggunakan serangan tatabahasa untuk naik tahap!</p>
+                <button class="pixel-btn btn-green btn-block" onclick="Regions.startWildBattle()">Mula Pertarungan</button>
+              </div>
+
+              <div class="mode-card">
+                <div class="mode-icon">🔴</div>
+                <h4>2. Cabaran Menangkap</h4>
+                <p>Jawab soalan bahasa dengan tepat untuk meningkatkan kadar tangkapan Poké Ball!</p>
+                <button class="pixel-btn btn-red btn-block" onclick="Regions.startCatchingChallenge()">Tangkap Pokémon</button>
+              </div>
+
+              <div class="mode-card">
+                <div class="mode-icon">🧩</div>
+                <h4>3. Teka-Teki Kata (Puzzle)</h4>
+                <p>Susun suku kata, cantum kata majmuk, atau padankan jenis kata ganda!</p>
+                <button class="pixel-btn btn-blue btn-block" onclick="Regions.startPuzzleMode()">Main Teka-Teki</button>
+              </div>
+
+              <div class="mode-card">
+                <div class="mode-icon">🎒</div>
+                <h4>4. Cari Item Tersembunyi</h4>
+                <p>Teroka peta wilayah untuk mengumpul skrol kata rahsia, Poké Coins & item!</p>
+                <button class="pixel-btn btn-yellow btn-block" onclick="Regions.startItemHunt()">Teroka Peta</button>
+              </div>
+
+              <div class="mode-card">
+                <div class="mode-icon">⚔️</div>
+                <h4>5. Pertarungan Pelatih</h4>
+                <p>Lawan pelatih wilayah untuk mengumpul XP dan membuka cabaran Ketua Gym.</p>
+                <button class="pixel-btn btn-purple btn-block" onclick="Regions.startTrainerBattle()">Lawan Pelatih</button>
+              </div>
+
+              <div class="mode-card mode-gym">
+                <div class="mode-icon">🏅</div>
+                <h4 id="adv-gym-leader-name">6. Cabaran Gym: Flora</h4>
+                <p id="adv-gym-req">Selesaikan sekurang-kurangnya 3 misi wilayah untuk mencabar Ketua Gym.</p>
+                <button id="btn-adv-gym-challenge" class="pixel-btn btn-orange btn-block" onclick="Regions.startGymBattle()">Cabar Ketua Gym</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Region Mission Checklist & Mini Notes -->
+          <div class="rpg-card">
+            <h3>📜 Senarai Misi Wilayah</h3>
+            <ul id="region-missions-list" class="mission-checklist"></ul>
+
+            <div class="grammar-cheat-sheet">
+              <h4>📖 Nota Pantas Profesor Bahasa</h4>
+              <div id="region-grammar-notes"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Sub-Activity Stage (Puzzle / Item Hunt / Catching) -->
+        <div id="activity-stage" class="rpg-card activity-stage hidden"></div>
+      </section>
+
+      <!-- =========================================================
+           SCREEN 5: TURN-BASED POKÉMON BATTLE ARENA
+           ========================================================= -->
+      <section id="screen-battle" class="screen">
+        <div id="battle-arena" class="battle-arena arena-region1">
+          <div class="battle-top-bar">
+            <span id="battle-type-label" class="battle-tag">PERTARUNGAN POKÉMON LIAR</span>
+            <button id="btn-flee-battle" class="pixel-btn btn-small btn-red">🏃 Lari</button>
+          </div>
+
+          <!-- Battle Stage: Enemy vs Player -->
+          <div class="battle-field">
+            <!-- Enemy Side -->
+            <div class="combatant enemy-side">
+              <div class="status-hud">
+                <div class="hud-row">
+                  <strong id="enemy-name">Pokémon Liar</strong>
+                  <span>Lv.<span id="enemy-level">3</span></span>
+                </div>
+                <div class="hp-bar-outer">
+                  <div id="enemy-hp-fill" class="hp-bar-inner" style="width: 100%"></div>
+                </div>
+                <div class="hp-numbers"><span id="enemy-hp-text">50/50</span> HP</div>
+              </div>
+              <div class="sprite-platform enemy-platform">
+                <div id="enemy-sprite-box" class="battle-sprite"></div>
+              </div>
+            </div>
+
+            <!-- Player Side -->
+            <div class="combatant player-side">
+              <div class="sprite-platform player-platform">
+                <div id="player-sprite-box" class="battle-sprite"></div>
+              </div>
+              <div class="status-hud">
+                <div class="hud-row">
+                  <strong id="player-poke-name">Daunaur</strong>
+                  <span>Lv.<span id="player-poke-level">5</span></span>
+                </div>
+                <div class="hp-bar-outer">
+                  <div id="player-hp-fill" class="hp-bar-inner" style="width: 100%"></div>
+                </div>
+                <div class="hp-numbers">
+                  <span><span id="player-hp-text">60/60</span> HP</span>
+                  <span>XP: <span id="player-poke-xp">0/50</span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RPG Dialogue & Grammar Question Box -->
+          <div class="battle-control-panel">
+            <div id="battle-dialogue" class="rpg-box battle-dialogue">
+              Pokémon liar muncul! Jawab soalan tatabahasa untuk menyerang!
+            </div>
+
+            <!-- Battle Action Menu -->
+            <div id="battle-action-menu" class="battle-actions">
+              <button class="pixel-btn btn-red" onclick="Battle.promptAttack()">⚔️ SERANG (Soalan Bahasa)</button>
+              <button class="pixel-btn btn-blue" onclick="Battle.openBagInBattle()">🎒 BEG ITEM</button>
+              <button class="pixel-btn btn-yellow" onclick="Battle.openSwitchInBattle()">🔄 TUKAR POKÉMON</button>
+              <button class="pixel-btn btn-green" onclick="Battle.attemptCatchInBattle()">🔴 BALING POKÉ BALL</button>
+            </div>
+
+            <!-- Grammar Attack Question Overlay -->
+            <div id="battle-question-box" class="battle-question-box hidden">
+              <div class="q-meta">
+                <span id="bq-category" class="q-tag">Kata Berimbuhan</span>
+                <span id="bq-difficulty" class="q-diff">Tahap 1</span>
+              </div>
+              <p id="bq-prompt" class="bq-prompt">Pilih jawapan yang betul:</p>
+              <div id="bq-options" class="bq-options-grid"></div>
+            </div>
+
+            <!-- Battle Feedback / Explanation Drawer -->
+            <div id="battle-feedback-box" class="battle-feedback-box hidden">
+              <div id="bf-title" class="bf-title">Jawapan Tepat!</div>
+              <p id="bf-explanation" class="bf-explanation"></p>
+              <button id="btn-battle-next" class="pixel-btn btn-yellow">Teruskan →</button>
+            </div>
+
+            <!-- In-battle Bag / Switch Subpanel -->
+            <div id="battle-subpanel" class="battle-subpanel hidden"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           SCREEN 6: POKÉMON COLLECTION & TEAM MANAGER
+           ========================================================= -->
+      <section id="screen-team" class="screen">
+        <div class="section-header">
+          <h2 class="pixel-font">🎒 PASUKAN & KOLEKSI POKÉMON</h2>
+          <span class="hint-pill">Pilih Pokémon Utama atau susun sehingga 6 Pokémon dalam pasukan</span>
+        </div>
+
+        <div class="rpg-card">
+          <h3>⭐ Pasukan Aktif (<span id="active-team-count">1</span>/6)</h3>
+          <div id="active-team-grid" class="pokemon-grid"></div>
+        </div>
+
+        <div class="rpg-card mt-16">
+          <h3>📦 Kotak Simpanan Pokémon (Semua Koleksi)</h3>
+          <div id="storage-pokemon-grid" class="pokemon-grid"></div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           SCREEN 7: POKÉDEX & BAHASA MELAYU LEARNING DEX
+           ========================================================= -->
+      <section id="screen-pokedex" class="screen">
+        <div class="section-header">
+          <h2 class="pixel-font">📱 POKÉDEX & KAMUS BAHASA LINGUA</h2>
+          <div class="tab-buttons">
+            <button id="tab-btn-dex" class="pixel-btn btn-red" onclick="Pokedex.switchTab('species')">Pokémon Dex</button>
+            <button id="tab-btn-lexicon" class="pixel-btn btn-blue" onclick="Pokedex.switchTab('lexicon')">Kamus Kata Bahasa</button>
+          </div>
+        </div>
+
+        <div id="pokedex-species-view" class="pokedex-grid"></div>
+        <div id="pokedex-lexicon-view" class="rpg-card hidden"></div>
+      </section>
+
+      <!-- =========================================================
+           SCREEN 8: GYMS & BADGES
+           ========================================================= -->
+      <section id="screen-gyms" class="screen">
+        <div class="section-header">
+          <h2 class="pixel-font">🏅 GYM BAHASA & LENCANA WILAYAH</h2>
+        </div>
+        <div id="gyms-container" class="gyms-grid"></div>
+      </section>
+
+      <!-- =========================================================
+           SCREEN 9: POKÉMON CENTER & GRAMMAR REVISION
+           ========================================================= -->
+      <section id="screen-center" class="screen">
+        <div class="section-header">
+          <h2 class="pixel-font">🏥 PUSAT POKÉMON & KLINIK TATABAHASA</h2>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="rpg-card center-heal-card">
+            <div class="nurse-art">👩‍⚕️💖</div>
+            <h3>Jururawat Joy Lingua</h3>
+            <p>"Selamat datang ke Pusat Pokémon! Kami boleh memulihkan semua HP Pokémon kamu secara percuma dan membantu kamu mengulang kaji soalan yang pernah tersilap."</p>
+            <button id="btn-heal-all" class="pixel-btn btn-green btn-large btn-block">
+              ✨ PULIHKAN SEMUA POKÉMON (100% HP)
+            </button>
+            <div id="heal-status-msg" class="mt-12 text-center"></div>
+          </div>
+
+          <div class="rpg-card">
+            <h3>📝 Rekod Ulang Kaji & Soalan Tersilap (<span id="mistake-count">0</span>)</h3>
+            <p class="small-muted">Jawab semula soalan yang pernah salah untuk mengukuhkan pemahaman dan memperoleh bonus XP!</p>
+            <div id="mistakes-review-list" class="mistakes-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           SCREEN 10: ITEM SHOP
+           ========================================================= -->
+      <section id="screen-shop" class="screen">
+        <div class="section-header">
+          <h2 class="pixel-font">🏪 KEDAI ITEM POKÉ MART</h2>
+          <div class="coin-banner">🪙 Baki Anda: <strong id="shop-coins">200</strong> Poké Coins</div>
+        </div>
+        <div id="shop-items-grid" class="shop-grid"></div>
+      </section>
+
+      <!-- =========================================================
+           SCREEN 11: CHAMPION LEAGUE & FINAL EXAM
+           ========================================================= -->
+      <section id="screen-champion" class="screen">
+        <div class="section-header">
+          <h2 class="pixel-font">👑 LIGA JUARA WILAYAH LINGUA</h2>
+        </div>
+        <div id="champion-content" class="rpg-card"></div>
+      </section>
+
+      <!-- =========================================================
+           SCREEN 12: PROFESSOR BAHASA ASSISTANT
+           ========================================================= -->
+      <section id="screen-professor" class="screen">
+        <div class="section-header">
+          <h2 class="pixel-font">🧑‍🏫 MAKMAL PROFESOR BAHASA</h2>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="rpg-card">
+            <div class="prof-header">
+              <div class="prof-avatar-lg">🧑‍🏫</div>
+              <div>
+                <h3>Profesor Bahasa</h3>
+                <p>Pakar Pembentukan Kata Bahasa Melayu (KSSR Tahun 4)</p>
+              </div>
+            </div>
+            <div id="prof-chat-window" class="prof-chat-window">
+              <div class="prof-msg">
+                <strong>Profesor Bahasa:</strong> Salam sejahtera, Pelatih! Pilih mana-mana topik di bawah atau taip perkataan untuk saya terangkan pembentukan katanya!
+              </div>
+            </div>
+            <div class="prof-quick-topics">
+              <button class="pixel-btn btn-small btn-green" onclick="Main.askProfessor('imbuhan')">Apa itu Kata Berimbuhan?</button>
+              <button class="pixel-btn btn-small btn-blue" onclick="Main.askProfessor('majmuk')">Beza Kata Majmuk Bebas & Mantap?</button>
+              <button class="pixel-btn btn-small btn-yellow" onclick="Main.askProfessor('ganda')">Apa itu Kata Ganda Penuh & Separa?</button>
+              <button class="pixel-btn btn-small btn-purple" onclick="Main.askProfessor('tips')">Tips Menjawab Peperiksaan Juara</button>
+            </div>
+            <div class="prof-input-row">
+              <input type="text" id="prof-word-input" placeholder="Taip perkataan (cth: matahari, bermain, pepohon)..." />
+              <button id="btn-prof-analyze" class="pixel-btn btn-green">Analisis Kata</button>
+            </div>
+          </div>
+
+          <div class="rpg-card">
+            <h3>📚 Rujukan Lengkap KSSR SK 5.2</h3>
+            <div class="ref-accordion">
+              <div class="ref-block">
+                <h4>1. Kata Berimbuhan (Wilayah 1)</h4>
+                <ul>
+                  <li><strong>Awalan:</strong> Imbuhan di hadapan kata dasar (<em>me-, ber-, ter-, di-, pe-</em>). Contoh: <em>bermain, membaca, menyapu</em>.</li>
+                  <li><strong>Akhiran:</strong> Imbuhan di belakang kata dasar (<em>-an, -kan, -i</em>). Contoh: <em>makanan, tulisan, minuman</em>.</li>
+                  <li><strong>Apitan:</strong> Imbuhan di hadapan dan belakang serentak (<em>pe-...-an, ke-...-an, me-...-kan</em>). Contoh: <em>permainan, kebersihan, menjalankan</em>.</li>
+                </ul>
+              </div>
+              <div class="ref-block">
+                <h4>2. Kata Majmuk (Wilayah 2)</h4>
+                <ul>
+                  <li><strong>Kata Majmuk Bebas:</strong> Dua kata dasar dieja terpisah yang membawa makna khusus. Contoh: <em>kereta api, meja makan, jalan raya, alat tulis</em>.</li>
+                  <li><strong>Kata Majmuk Mantap:</strong> Kata majmuk yang telah mantap dan dieja rapat sebagai satu perkataan. Contoh: <em>matahari, antarabangsa, kerjasama, olahraga, kakitangan, tandatangan, tanggungjawab</em>.</li>
+                </ul>
+              </div>
+              <div class="ref-block">
+                <h4>3. Kata Ganda (Wilayah 3)</h4>
+                <ul>
+                  <li><strong>Kata Ganda Penuh:</strong> Menggandakan keseluruhan kata dasar dengan tanda sempang (-). Contoh: <em>buku-buku, kanak-kanak, meja-meja</em>.</li>
+                  <li><strong>Kata Ganda Separa:</strong> Menggandakan sebahagian kata dasar (suku kata pertama dilemahkan menjadi vokal 'e'). Contoh: <em>pepohon (pohon), lelaki (laki), tetamu (tamu), dedaun (daun)</em>.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           SCREEN 13: ACHIEVEMENTS
+           ========================================================= -->
+      <section id="screen-achievements" class="screen">
+        <div class="section-header">
+          <h2 class="pixel-font">🏆 PENCAPAIAN PELATIH</h2>
+        </div>
+        <div id="achievements-grid" class="achievements-grid"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- MODAL: AUDIO SETTINGS & NOTIFICATIONS -->
+  <div id="audio-modal" class="modal-backdrop hidden">
+    <div class="rpg-card modal-box">
+      <div class="card-head-flex">
+        <h3 class="pixel-font">🔊 TETAPAN AUDIO</h3>
+        <button id="btn-close-audio" class="pixel-btn btn-small btn-red">✕</button>
+      </div>
+      <div class="audio-controls">
+        <label class="toggle-row">
+          <span>Bunyi Keseluruhan</span>
+          <input type="checkbox" id="chk-audio-enabled" checked />
+        </label>
+        <label class="slider-row">
+          <span>Muzik Latar (BGM)</span>
+          <input type="range" id="rng-bgm-vol" min="0" max="100" value="40" />
+        </label>
+        <label class="slider-row">
+          <span>Kesan Bunyi (SFX)</span>
+          <input type="range" id="rng-sfx-vol" min="0" max="100" value="70" />
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION BANNER -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- SCRIPTS (Ordered by dependency) -->
+  <script src="js/audio.js"></script>
+  <script src="js/questions.js"></script>
+  <script src="js/pokemon.js"></script>
+  <script src="js/game-state.js"></script>
+  <script src="js/save-system.js"></script>
+  <script src="js/pokedex.js"></script>
+  <script src="js/inventory.js"></script>
+  <script src="js/badges.js"></script>
+  <script src="js/achievements.js"></script>
+  <script src="js/battle.js"></script>
+  <script src="js/regions.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
