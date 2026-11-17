@@ -1,0 +1,58 @@
+/* ==========================================================================
+   RPG ANIMATIONS: IDLE BOUNCE, ATTACK LUNGE, HIT FLASH, POKÉ BALL WOBBLE
+   ========================================================================== */
+
+@keyframes fadeInScreen {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUpToast {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pokeIdle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes attackLungeRight {
+  0% { transform: translateX(0); }
+  40% { transform: translateX(48px) scale(1.1); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes attackLungeLeft {
+  0% { transform: translateX(0); }
+  40% { transform: translateX(-48px) scale(1.1); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes hitShake {
+  0%, 100% { transform: translateX(0); filter: brightness(1); }
+  20% { transform: translateX(-10px); filter: brightness(2.2) saturate(2); }
+  40% { transform: translateX(10px); }
+  60% { transform: translateX(-8px); }
+  80% { transform: translateX(8px); }
+}
+
+@keyframes pokeballWobble {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(-22deg) scale(1.1); }
+  50% { transform: rotate(22deg) scale(1.1); }
+  75% { transform: rotate(-12deg) scale(1.05); }
+}
+
+@keyframes evolveGlow {
+  0% { filter: brightness(1) drop-shadow(0 0 0 #facc15); transform: scale(1); }
+  50% { filter: brightness(3) drop-shadow(0 0 20px #facc15); transform: scale(1.2); }
+  100% { filter: brightness(1) drop-shadow(0 0 0 #facc15); transform: scale(1); }
+}
+
+.anim-idle { animation: pokeIdle 1.8s ease-in-out infinite; }
+.anim-lunge-right { animation: attackLungeRight 0.45s ease; }
+.anim-lunge-left { animation: attackLungeLeft 0.45s ease; }
+.anim-hit { animation: hitShake 0.45s ease; }
+.anim-pokeball { display: inline-block; font-size: 3.2rem; animation: pokeballWobble 0.8s ease-in-out 2; }
+.anim-evolve { animation: evolveGlow 1.1s ease-in-out; }
