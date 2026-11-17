@@ -1,0 +1,370 @@
+/* ==========================================================================
+   GAME DASHBOARD, WORLD MAP, ADVENTURE MODES, POKÉDEX, SHOP & CENTER
+   ========================================================================== */
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 18px;
+}
+
+.trainer-card-top {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.dash-avatar-big {
+  font-size: 3.4rem;
+  background: #e0f2fe;
+  border: 3px solid #1e2436;
+  border-radius: 16px;
+  width: 84px;
+  height: 84px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trainer-identity { flex: 1; }
+.rank-pill {
+  display: inline-block;
+  background: #facc15;
+  border: 2px solid #1e2436;
+  font-size: 0.72rem;
+  font-weight: 900;
+  padding: 2px 10px;
+  border-radius: 999px;
+}
+
+.xp-bar-wrap { margin-top: 8px; }
+.xp-bar-label { display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 800; margin-bottom: 4px; }
+
+.progress-track {
+  width: 100%;
+  height: 14px;
+  background: #e2e8f0;
+  border: 2px solid #1e2436;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.progress-fill { height: 100%; transition: width 0.35s ease; }
+.fill-blue { background: #2563eb; }
+.fill-green { background: #16a34a; }
+.fill-orange { background: #ea580c; }
+
+.trainer-stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.mini-stat-box {
+  background: #f1f5f9;
+  border: 2px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 8px;
+  text-align: center;
+}
+.mini-stat-box .stat-icon { display: block; font-size: 1.2rem; }
+.mini-stat-box strong { display: block; font-size: 1.05rem; }
+.mini-stat-box small { font-size: 0.74rem; color: #475569; font-weight: 700; }
+
+.badges-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.badge-slot {
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: 2px dashed #94a3b8;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #64748b;
+}
+.badge-slot.earned {
+  border-style: solid;
+  border-color: #ca8a04;
+  background: #fef9c3;
+  color: #1e2436;
+}
+
+.card-head-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+
+.active-team-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.mini-poke-pill {
+  background: #f8fafc;
+  border: 2px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 8px;
+  text-align: center;
+  font-size: 0.82rem;
+}
+.mini-poke-pill.lead { border-color: #facc15; background: #fefce8; }
+
+.quick-btn-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.topic-progress-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 12px;
+}
+.topic-prog-head { display: flex; justify-content: space-between; font-size: 0.86rem; margin-bottom: 6px; }
+
+/* World Map */
+.world-map-board {
+  background: radial-gradient(circle at center, #34d399 0%, #059669 55%, #065f46 100%);
+  border: 4px solid #1e2436;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 8px 0 #0f172a;
+}
+
+.map-nodes-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.map-node {
+  flex: 1;
+  min-width: 210px;
+  background: #fdfcf7;
+  border: 4px solid #1e2436;
+  border-radius: 16px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 6px 0 #1e2436;
+}
+.node-badge-tag {
+  display: inline-block;
+  background: #1e2436;
+  color: #facc15;
+  font-size: 0.72rem;
+  font-weight: 900;
+  padding: 3px 10px;
+  border-radius: 999px;
+  margin-bottom: 8px;
+}
+.node-art { font-size: 2.1rem; margin: 6px 0; }
+.node-topic { font-size: 0.9rem; color: #2563eb; margin: 4px 0; }
+.node-leader { font-size: 0.84rem; color: #475569; margin-bottom: 8px; }
+.node-status {
+  font-weight: 900;
+  font-size: 0.8rem;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: #dcfce7;
+  color: #15803d;
+  margin-bottom: 10px;
+}
+.map-connector { font-weight: 900; color: #fef08a; font-size: 1.2rem; }
+
+/* Adventure Screen */
+.adventure-banner {
+  border: 4px solid #1e2436;
+  border-radius: 16px;
+  padding: 18px 20px;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.theme-region1 { background: linear-gradient(120deg, #15803d, #22c55e); }
+.theme-region2 { background: linear-gradient(120deg, #1d4ed8, #0ea5e9); }
+.theme-region3 { background: linear-gradient(120deg, #78350f, #d97706); }
+
+.region-pill {
+  display: inline-block;
+  background: rgba(0, 0, 0, 0.35);
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.adventure-layout {
+  display: grid;
+  grid-template-columns: 1.4fr 0.9fr;
+  gap: 18px;
+}
+
+.mode-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 12px;
+}
+.mode-card {
+  background: #ffffff;
+  border: 3px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.mode-card.mode-gym { border-color: #f59e0b; background: #fffbeb; }
+.mode-icon { font-size: 1.8rem; margin-bottom: 4px; }
+.mode-card h4 { font-size: 0.98rem; margin-bottom: 4px; }
+.mode-card p { font-size: 0.84rem; color: #475569; margin-bottom: 10px; }
+
+.mission-checklist { list-style: none; margin: 12px 0; display: flex; flex-direction: column; gap: 8px; }
+.mission-checklist li {
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: #f1f5f9;
+  font-size: 0.88rem;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+}
+.mission-checklist li.done { background: #dcfce7; color: #166534; }
+
+.grammar-cheat-sheet {
+  background: #eff6ff;
+  border: 2px solid #93c5fd;
+  border-radius: 12px;
+  padding: 12px;
+  margin-top: 12px;
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+/* Sub-activity stage (Puzzle / Item Hunt) */
+.activity-stage { margin-top: 18px; border-color: #2563eb; }
+.puzzle-tiles { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+.tile-btn {
+  padding: 10px 16px;
+  font-size: 1rem;
+  font-weight: 900;
+  background: #fef08a;
+  border: 3px solid #1e2436;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.hunt-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 12px;
+}
+.hunt-spot {
+  background: #ecfdf5;
+  border: 3px solid #059669;
+  border-radius: 12px;
+  padding: 16px 8px;
+  text-align: center;
+  font-weight: 800;
+  cursor: pointer;
+}
+.hunt-spot.searched { background: #e2e8f0; border-color: #94a3b8; opacity: 0.7; }
+
+/* Pokémon Team & Pokédex */
+.pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+  margin-top: 12px;
+}
+.poke-card {
+  background: #fff;
+  border: 3px solid #1e2436;
+  border-radius: 14px;
+  padding: 14px;
+  text-align: center;
+  position: relative;
+}
+.poke-card.lead-card { border-color: #eab308; background: #fefce8; }
+.poke-sprite-wrap { width: 88px; height: 88px; margin: 0 auto 6px; }
+.type-pill {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  background: #e2e8f0;
+  margin-bottom: 6px;
+}
+.poke-card-actions { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+
+.pokedex-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+}
+.dex-card {
+  background: #fdfcf7;
+  border: 3px solid #1e2436;
+  border-radius: 14px;
+  padding: 14px;
+}
+.dex-card.unseen { opacity: 0.65; filter: grayscale(0.9); }
+
+/* Gyms, Shop, Achievements, Professor */
+.gyms-grid, .shop-grid, .achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 16px;
+}
+
+.coin-banner {
+  background: #fef08a;
+  color: #1e2436;
+  border: 3px solid #1e2436;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-weight: 800;
+}
+
+.nurse-art { font-size: 3rem; text-align: center; margin-bottom: 8px; }
+.mistakes-list { display: flex; flex-direction: column; gap: 10px; max-height: 360px; overflow-y: auto; }
+.mistake-item { background: #fff1f2; border: 2px solid #fda4af; border-radius: 10px; padding: 10px; }
+
+.prof-header { display: flex; gap: 12px; align-items: center; margin-bottom: 12px; }
+.prof-avatar-lg { font-size: 2.8rem; background: #dbeafe; padding: 10px; border-radius: 14px; border: 3px solid #1e2436; }
+.prof-chat-window {
+  background: #f8fafc;
+  border: 3px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 12px;
+  height: 220px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.prof-msg { background: #eff6ff; border-left: 4px solid #2563eb; padding: 8px 10px; border-radius: 8px; font-size: 0.9rem; }
+.prof-quick-topics { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.prof-input-row { display: flex; gap: 8px; }
+.prof-input-row input { flex: 1; padding: 9px 12px; border: 3px solid #1e2436; border-radius: 10px; font-family: 'Nunito', sans-serif; font-weight: 700; }
+
+.ref-block { margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #cbd5e1; }
+.ref-block h4 { color: #1d4ed8; margin-bottom: 4px; }
+.ref-block ul { padding-left: 18px; font-size: 0.88rem; line-height: 1.45; }
+
+@media (max-width: 900px) {
+  .dashboard-grid, .adventure-layout, .topic-progress-grid { grid-template-columns: 1fr; }
+  .mode-cards-grid { grid-template-columns: 1fr; }
+}
